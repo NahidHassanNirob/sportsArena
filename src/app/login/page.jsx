@@ -14,10 +14,18 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const router=useRouter()
+  
+  // google socail signIn
+  const googleSignIn=async()=>{
+    await authClient.signIn.social({
+      provider:"google"
+    })
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
+
     
     const newData = new FormData(e.currentTarget);
     const userCredentials = Object.fromEntries(newData.entries());
@@ -135,6 +143,7 @@ export default function LoginPage() {
 
           <div className="mb-6">
             <Button
+              onClick={()=>googleSignIn()}
               variant="bordered"
               className="w-full flex items-center justify-center gap-3 py-6 rounded-xl border border-gray-600 bg-transparent text-white font-medium hover:bg-white/5 transition-all"
             >

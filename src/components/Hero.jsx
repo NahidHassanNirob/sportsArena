@@ -30,7 +30,7 @@ export function HeroSection() {
       <div className="absolute bottom-1/4 right-[5%] w-96 h-96 bg-emerald-500/10 rounded-full blur-[150px] pointer-events-none" />
 
       {/* Main Content Container */}
-      <div className="container max-w-6xl mx-auto px-6 relative z-10 w-full">
+      <div className=" max-w-6xl mx-auto px-4 relative z-10 w-full">
         <div className="text-center flex flex-col items-center">
           
           {/* Badge */}

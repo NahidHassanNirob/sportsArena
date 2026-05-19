@@ -21,7 +21,8 @@ const Navbar = () => {
       <li>
         <Link href={"/facilities"} className="hover:text-green-500 transition-colors">All Facilities</Link>
       </li>
-      <li>
+      {
+        user &&<><li>
         <Link href={"/bookings"} className="hover:text-green-500 transition-colors">My Bookings</Link>
       </li>
       <li>
@@ -29,7 +30,8 @@ const Navbar = () => {
       </li>
       <li>
         <Link href={"/manage-facilities"} className="hover:text-green-500 transition-colors">Manage My Facilities</Link>
-      </li>
+      </li></>
+      }
     </>
   );
 
@@ -100,13 +102,13 @@ const Navbar = () => {
         <div className="border-t border-white/10 lg:hidden bg-[#111627]">
           <ul className="flex flex-col font-semibold text-[#8B8B8B] gap-2 p-4">
             {navLinks}
-            <li className="mt-4 flex flex-col gap-2 border-t border-white/10 pt-4">
-              <Link href={"/login"}>
-                <Button className="w-full bg-gradient-to-r from-cyan-500 to-emerald-500 text-slate-950 font-bold rounded-xl">
-                  Login
-                </Button>
-              </Link>
-            </li>
+           {
+          user? <ProfileDropdown user={user}></ProfileDropdown> : <Link href={"/login"}>
+            <Button className="bg-gradient-to-r from-cyan-500 to-emerald-500 text-slate-950 font-bold rounded-xl px-5">
+              Login
+            </Button>
+          </Link>
+         }
           </ul>
         </div>
       )}

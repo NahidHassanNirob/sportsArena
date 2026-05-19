@@ -11,7 +11,7 @@ export function ProfileDropdown({user}) {
   }
   return (
     <Dropdown className=" relative">
-      <Dropdown.Trigger className="rounded-full">
+      <Dropdown.Trigger className="rounded-full flex items-center gap-3">
         <Avatar>
           <Avatar.Image
             alt={`${name} image`}
@@ -19,6 +19,7 @@ export function ProfileDropdown({user}) {
           />
           <Avatar.Fallback delayMs={600}>JD</Avatar.Fallback>
         </Avatar>
+        <h2 className="text-white">{name}</h2>
       </Dropdown.Trigger>
       <Dropdown.Popover className='rounded-md absolute  z-50'>
         <div className="px-3 pt-3 pb-1">
@@ -37,11 +38,14 @@ export function ProfileDropdown({user}) {
           </div>
         </div>
         <Dropdown.Menu>
-          <Dropdown.Item id="dashboard" textValue="Dashboard">
-            <Label>Dashboard</Label>
+          <Dropdown.Item href="/bookings" id="bookings" textValue="Dashboard">
+            <Label>My Bookings</Label>
           </Dropdown.Item>
-          <Dropdown.Item id="profile" textValue="Profile">
-            <Label>Profile</Label>
+          <Dropdown.Item href="/add-facilities" id="add-facilities" textValue="Profile">
+            <Label>Add Facility</Label>
+          </Dropdown.Item>
+          <Dropdown.Item href="/manage-facilities" id="manage-facilities" textValue="Profile">
+            <Label>Manage My Facilities</Label>
           </Dropdown.Item>
         
           <Dropdown.Item onClick={()=>handelSignout()} id="logout" textValue="Logout" variant="danger">

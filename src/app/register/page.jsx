@@ -17,6 +17,13 @@ export default function RegisterPage() {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
+  // google socail signIn
+    const googleSignIn=async()=>{
+      await authClient.signIn.social({
+        provider:"google"
+      })
+    }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -175,6 +182,7 @@ export default function RegisterPage() {
 
           <div className="mb-6">
             <Button
+              onClick={()=>googleSignIn()}
               variant="bordered"
               className="w-full flex border border-gray-600 items-center justify-center gap-3 py-6 rounded-xl bg-transparent text-white font-medium hover:bg-white/5 transition-all"
             >
