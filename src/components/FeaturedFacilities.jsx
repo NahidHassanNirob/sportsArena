@@ -1,17 +1,16 @@
-// এখানে কোনো "use client" থাকবে না
+
 import { getfeaturedfacilities } from "@/lib/data";
 import Link from "next/link";
 import FacilityCard from "./FacilityCard";
 
-// Server Component-এ async ব্যবহার করা সম্পূর্ণ বৈধ
 export async function FeaturedFacilitiesSection() {
-  // সরাসরি সার্ভার সাইড ডেটা ফেচিং
+
   const facilities = await getfeaturedfacilities();
 
   return (
     <section className="py-24 bg-[#041527] text-white">
       <div className="max-w-6xl mx-auto px-4">
-        {/* Header (framer-motion বাদ দেওয়া হয়েছে কারণ এটি সার্ভার কম্পোনেন্ট) */}
+        
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-12">
           <div>
             <span className="inline-block text-orange-500 text-sm font-semibold tracking-wider uppercase mb-4">

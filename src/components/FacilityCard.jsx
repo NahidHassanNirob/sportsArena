@@ -16,7 +16,7 @@ const FacilityCard = ({ facilitie, index = 0 }) => {
     location,
     pricePerHour,
     capacity,
-    vailableTimeSlots,
+    availableSlot,
     rating
   } = facilitie;
 
@@ -27,7 +27,7 @@ const FacilityCard = ({ facilitie, index = 0 }) => {
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.4, delay: index * 0.1 }}
+      transition={{ duration: 0.2, delay: 0.2 }}
       className="group"
     >
       <a href={`/facilities/${facilityId}`} className="block h-full">
@@ -71,7 +71,7 @@ const FacilityCard = ({ facilitie, index = 0 }) => {
                 <div className="flex items-center gap-1">
                   <Clock className="w-4 h-4 text-orange" />
                   <span className="text-sm text-muted-foreground">
-                    {Array.isArray(vailableTimeSlots) ? vailableTimeSlots.length : (vailableTimeSlots || 0)} slots
+                    {availableSlot} slots
                   </span>
                 </div>
               </div>
