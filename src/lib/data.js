@@ -61,3 +61,25 @@ export const getOwnerFcilities=async(owenerEmail)=>{
     const data=await res.json(owenerEmail);
     return data || [];
 }
+
+// update facility data by id
+export const updateFacilityById = async (id, updatedData) => {
+  const res = await fetch(`http://localhost:8000/facilities/${id}`, {
+    method: 'PATCH',
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(updatedData)
+  });
+  const data = await res.json();
+  return data;
+};
+
+// delete facility by id
+export const deleteFacilityById = async (id) => {
+  const res = await fetch(`http://localhost:8000/facilities/${id}`, {
+    method: 'DELETE',
+  });
+  const data = await res.json();
+  return data;
+};

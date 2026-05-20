@@ -5,6 +5,7 @@ import { FacilitiesAction } from './FacilitiesAction';
 const MyFacilitiesCard = ({ facilities }) => {
     console.log(facilities);
     const {
+        _id,
         availableSlot,
         booking_count,
         capacity,
@@ -61,7 +62,7 @@ const MyFacilitiesCard = ({ facilities }) => {
 
                     {/* থ্রি-ডট অ্যাকশন মেনু (ইমেজের মতো হুবহু ডান কোনায় বসানোর জন্য) */}
                     <div className='absolute top-0 right-0 text-gray-500 hover:text-white transition-colors'>
-                        <FacilitiesAction></FacilitiesAction>
+                        <FacilitiesAction id={_id}></FacilitiesAction>
                     </div>
                 </div>
                 
