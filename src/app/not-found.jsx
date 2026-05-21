@@ -33,7 +33,7 @@ export default function NotFound() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          {/* 404 Number */}
+         
           <div className="relative mb-8">
             <h1 className="text-[150px] md:text-[200px] font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-green-500 leading-none select-none">
               404

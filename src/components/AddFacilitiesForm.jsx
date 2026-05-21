@@ -18,7 +18,7 @@ const AddFacilitiesForm = ({ token }) => {
   const user = session?.user;
   
 
-  // e এর পাশাপাশি e.currentTarget এর বদলে সরাসরি e ব্যবহার করুন
+
   const handelSubmit = async (e) => {
     e.preventDefault();
 

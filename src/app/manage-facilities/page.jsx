@@ -7,14 +7,14 @@ import Link from 'next/link';
 import { Building2 } from 'lucide-react';
 
 const ManageFacilities = async () => {
-    // ১. সেশন এবং টোকেন পুনরুদ্ধার
+   
     const session = await auth.api.getToken({
         headers: await headers()
     });
     
     const rawData = session?.token ? await getOwnerFcilities(session.token) : [];
     
-    // ৩. ডাটা টাইপ চেক (এটি নিশ্চিত করবে যে এটি সবসময় একটি এরে)
+    
     const myfacilities = Array.isArray(rawData) ? rawData : [];
 
     return (

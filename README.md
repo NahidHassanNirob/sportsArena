@@ -1,36 +1,43 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 🎾 Sports Arena - Facility Booking Platform
 
-## Getting Started
+**Sports Arena** is a modern, responsive web application designed for sports enthusiasts to discover, book, and manage sports facilities easily. Whether it's a football turf, badminton court, or cricket ground, users can browse available slots, make bookings, and manage their reservations in real-time.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🚀 Live URL
+[Insert your Vercel live link here]
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## ✨ Key Features
+- **Facility Discovery:** Browse through various sports facilities with real-time search and filtering options.
+- **Dynamic Booking System:** Select specific time slots with live availability tracking.
+- **Secure Authentication:** Robust login/signup integration using **Better-Auth** and **MongoDB**.
+- **User Dashboard:** Seamlessly manage upcoming bookings and view reservation history.
+- **Auto-Sync:** Booking cancellation automatically restores facility availability slots.
+- **Modern UI/UX:** Built with **HeroUI** and **TailwindCSS** for a sleek, responsive interface.
+- **Smooth Interaction:** Integrated with **Framer Motion** for premium animations.
+- **Instant Feedback:** Success and error notifications powered by **React Hot Toast**.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 🛠 Tech Stack & Dependencies
+This project is built using **Next.js 16** with the following core technologies:
 
-To learn more about Next.js, take a look at the following resources:
+*   **Core Framework:** `next` (React 19)
+*   **Styling:** `tailwindcss` & `@tailwindcss/postcss`
+*   **UI Components:** `@heroui/react`
+*   **Authentication:** `better-auth` with `@better-auth/mongo-adapter`
+*   **Database:** `mongodb`
+*   **Animations:** `framer-motion`
+*   **Icons:** `lucide-react` & `@gravity-ui/icons`
+*   **Notifications:** `react-hot-toast`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🚀 Getting Started
 
-## Deploy on Vercel
+### Prerequisites
+- Node.js (v18 or higher)
+- A running instance of the [Sports Arena Backend](https://github.com/your-username/your-backend-repo-link)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.

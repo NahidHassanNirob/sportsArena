@@ -16,7 +16,7 @@ export default function RegisterPage() {
   const [text, setText] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(""); // এরর মেসেজের জন্য স্টেট
+  const [errorMessage, setErrorMessage] = useState(""); 
   const router = useRouter();
 
   // google social signIn
@@ -29,16 +29,16 @@ export default function RegisterPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    setErrorMessage(""); // আগের এরর ক্লিয়ার করা
+    setErrorMessage(""); 
     
     const newData = new FormData(e.currentTarget);
     const newUser = Object.fromEntries(newData.entries());
     const pass = newUser.password;
 
-    // ১. দৈর্ঘ্য চেক (কমপক্ষে ৬ ক্যারেক্টার)
+    
     const hasMinLength = pass.length >= 6;
 
-    // ২. আপারকেস এবং লোয়ারকেস চেক (সহজ লজিক)
+   
     let hasUppercase = false;
     let hasLowercase = false;
 
@@ -50,7 +50,7 @@ export default function RegisterPage() {
       }
     }
 
-    // শর্ত পরীক্ষা
+   
     if (!hasMinLength || !hasUppercase || !hasLowercase) {
       setIsLoading(false);
       setErrorMessage("Password must be at least 6 characters, with 1 uppercase and 1 lowercase letter.");

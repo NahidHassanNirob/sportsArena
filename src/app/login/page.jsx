@@ -45,7 +45,7 @@ export default function LoginPage() {
             setIsLoading(false);
             toast.success("Login successfully");
             
-            // লগইন সফল হলে হোমপেজে পাঠাও এবং রিফ্রেশ করো
+           
             router.push("/");
             router.refresh();
           },

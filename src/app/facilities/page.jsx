@@ -144,11 +144,11 @@ useEffect(() => {
         </div>
       </section>
 
-      {/* Facilities Grid */}
+     
       <section className="pb-24 max-w-6xl mx-auto">
         {loading ? (
           <div className="flex justify-center items-center py-20">
-            {/* আপনার কাস্টম স্পিনার বা লোডিং টেক্সট দিতে পারেন */}
+            
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-cyan-500"></div>
           </div>
         ) : allFacilities.length > 0 ? (
