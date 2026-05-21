@@ -136,6 +136,9 @@ export default function LoginPage() {
           >
             Google
           </Button>
+          <div className="flex items-center gap-2 mt-2 text-sm">
+            <h2>Already have an account?</h2> <h2 className="text-blue-400"><Link href={'/register'}>Register</Link></h2>
+          </div>
         </motion.div>
       </div>
     </main>
