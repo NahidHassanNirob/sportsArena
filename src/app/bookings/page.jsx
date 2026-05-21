@@ -11,6 +11,7 @@ const MyBookingPage = async () => {
 
 
   const mybooked = session?.token ? await getMyBookings(session.token) : [];
+  console.log(mybooked, session.token);
 
   return (
     <div className="bg-[#080D19] min-h-screen mx-auto pt-30 pb-10 px-4">

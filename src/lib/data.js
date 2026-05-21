@@ -1,5 +1,5 @@
 // lib/data.js
-const BASE_URL = "http://localhost:8000";
+const BASE_URL = process.env.BASE_URL_SERVER;
 
 const getHeaders = (token) => ({
   "Content-Type": "application/json",
