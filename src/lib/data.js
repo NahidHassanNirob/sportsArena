@@ -5,11 +5,14 @@ export const getfeaturedfacilities=async()=>{
     return data
 }
 
-export const getAllfacilities=async()=>{
-    const res=await fetch('http://localhost:8000/facilities');
-    const data=await res.json();
-    return data
-}
+export const getAllfacilities = async (search = "", filter = "") => {
+    
+    const res = await fetch(`http://localhost:8000/facilities?search=${search}&filter=${filter}`, {
+        cache: 'no-store'
+    });
+    const data = await res.json();
+    return data;
+};
 
 
 // post database Facilities
@@ -83,3 +86,4 @@ export const deleteFacilityById = async (id) => {
   const data = await res.json();
   return data;
 };
+

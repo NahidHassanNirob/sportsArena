@@ -1,3 +1,4 @@
+import ExtraSections from "@/components/ExtraSection";
 import { FeaturedFacilitiesSection } from "@/components/FeaturedFacilities";
 import { HeroSection } from "@/components/Hero";
 
@@ -8,6 +9,7 @@ export default function Home() {
    <div>
     <HeroSection></HeroSection>
     <FeaturedFacilitiesSection></FeaturedFacilitiesSection>
+    <ExtraSections></ExtraSections>
    </div> 
   );
 }

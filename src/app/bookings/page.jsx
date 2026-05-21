@@ -14,7 +14,7 @@ const MyBookingPage = async () => {
     const mybooked=await getMyBookings(user);
     console.log(mybooked);
     return (
-        <div className=' bg-[#080D19] mx-auto pt-30 pb-10 px-4 '>
+        <div className=' bg-[#080D19] min-h-screen mx-auto pt-30 pb-10 px-4 '>
             <div className='max-w-6xl grid gap-4 mx-auto'>
                 {mybooked.map(book=><MyBookingCard book={book} key={book._id}></MyBookingCard>)}
             </div>
