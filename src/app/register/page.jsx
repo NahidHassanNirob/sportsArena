@@ -7,6 +7,7 @@ import { Eye, EyeOff, Mail, Lock, ArrowRight, User, Link2 } from "lucide-react";
 import { Button } from "@heroui/react";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 export default function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -15,21 +16,46 @@ export default function RegisterPage() {
   const [text, setText] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(""); // এরর মেসেজের জন্য স্টেট
   const router = useRouter();
 
-  // google socail signIn
-    const googleSignIn=async()=>{
-      await authClient.signIn.social({
-        provider:"google"
-      })
-    }
+  // google social signIn
+  const googleSignIn = async () => {
+    await authClient.signIn.social({
+      provider: "google"
+    });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
+    setErrorMessage(""); // আগের এরর ক্লিয়ার করা
     
     const newData = new FormData(e.currentTarget);
     const newUser = Object.fromEntries(newData.entries());
+    const pass = newUser.password;
+
+    // ১. দৈর্ঘ্য চেক (কমপক্ষে ৬ ক্যারেক্টার)
+    const hasMinLength = pass.length >= 6;
+
+    // ২. আপারকেস এবং লোয়ারকেস চেক (সহজ লজিক)
+    let hasUppercase = false;
+    let hasLowercase = false;
+
+    for (let i = 0; i < pass.length; i++) {
+      const char = pass[i];
+      if (char.toLowerCase() !== char.toUpperCase()) {
+        if (char === char.toUpperCase()) hasUppercase = true;
+        if (char === char.toLowerCase()) hasLowercase = true;
+      }
+    }
+
+    // শর্ত পরীক্ষা
+    if (!hasMinLength || !hasUppercase || !hasLowercase) {
+      setIsLoading(false);
+      setErrorMessage("Password must be at least 6 characters, with 1 uppercase and 1 lowercase letter.");
+      return;
+    }
 
     try {
       await authClient.signUp.email({
@@ -41,16 +67,17 @@ export default function RegisterPage() {
         onSuccess: async () => {
           await authClient.signOut();
           setIsLoading(false);
+          toast.success('Registration successful! Please login.'); 
           router.push('/login');
         },
         onError: (ctx) => {
           setIsLoading(false);
-         
-          alert(ctx.error?.message || "Something went wrong during registration.");
+          setErrorMessage(ctx.error?.message || "Something went wrong during registration.");
         }
       });
     } catch (err) {
       setIsLoading(false);
+      setErrorMessage("Something went wrong. Please try again.");
       console.error("Registration fatal error:", err);
     }
   };
@@ -153,6 +180,17 @@ export default function RegisterPage() {
               </div>
             </div>
 
+            {/* ফর্মের ভেতর লাল রঙের এরর মেসেজ */}
+            {errorMessage && (
+              <motion.div 
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="text-red-500 text-sm font-medium bg-red-500/10 border border-red-500/20 px-4 py-2 rounded-xl text-center"
+              >
+                {errorMessage}
+              </motion.div>
+            )}
+
             <Button
               type="submit"
               disabled={isLoading}
@@ -182,7 +220,7 @@ export default function RegisterPage() {
 
           <div className="mb-6">
             <Button
-              onClick={()=>googleSignIn()}
+              onClick={() => googleSignIn()}
               variant="bordered"
               className="w-full flex border border-gray-600 items-center justify-center gap-3 py-6 rounded-xl bg-transparent text-white font-medium hover:bg-white/5 transition-all"
             >

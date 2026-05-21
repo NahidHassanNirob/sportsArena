@@ -3,7 +3,7 @@ import React from 'react';
 import { FacilitiesAction } from './FacilitiesAction';
 
 const MyFacilitiesCard = ({ facilities }) => {
-    console.log(facilities);
+   
     const {
         _id,
         availableSlot,

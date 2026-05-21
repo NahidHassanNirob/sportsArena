@@ -1,14 +1,29 @@
 'use client'
 import { authClient } from "@/lib/auth-client";
-import {ArrowRightFromSquare, Gear, Persons} from "@gravity-ui/icons";
-import {Avatar, Dropdown, Label} from "@heroui/react";
+import { ArrowRightFromSquare, Gear, Persons } from "@gravity-ui/icons";
+import { Avatar, Dropdown, Label } from "@heroui/react";
+import { useRouter } from "next/navigation"; // ১. useRouter ইম্পোর্ট করুন
 
-export function ProfileDropdown({user}) {
-  console.log("user form dropdown",user);
-  const {name,email,image,}=user;
-  const handelSignout=async()=>{
-    await authClient.signOut();
-  }
+export function ProfileDropdown({ user }) {
+ 
+  const { name, email, image } = user;
+  const router = useRouter(); // ২. রাউটার ইনিশিয়ালাইজ করুন
+
+  const handelSignout = async () => {
+    try {
+      await authClient.signOut({
+        fetchOptions: {
+          onSuccess: () => {
+            
+            router.refresh();
+          }
+        }
+      });
+    } catch (error) {
+      console.error("Signout error:", error);
+    }
+  };
+
   return (
     <Dropdown className=" relative">
       <Dropdown.Trigger className="rounded-full flex items-center gap-3">
@@ -27,7 +42,7 @@ export function ProfileDropdown({user}) {
             <Avatar size="sm">
               <Avatar.Image
                 alt={`${name} image`}
-            src={image}
+                src={image}
               />
               <Avatar.Fallback delayMs={600}>JD</Avatar.Fallback>
             </Avatar>
@@ -48,7 +63,7 @@ export function ProfileDropdown({user}) {
             <Label>Manage My Facilities</Label>
           </Dropdown.Item>
         
-          <Dropdown.Item onClick={()=>handelSignout()} id="logout" textValue="Logout" variant="danger">
+          <Dropdown.Item onClick={handelSignout} id="logout" textValue="Logout" variant="danger">
             <div className="flex w-full items-center  gap-1">
               <ArrowRightFromSquare className=" text-danger" />
               <Label>Log Out</Label>

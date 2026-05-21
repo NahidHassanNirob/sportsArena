@@ -7,6 +7,7 @@ import { Button, Description, Dropdown, Header, Kbd, Label, Separator } from "@h
 import { useRouter } from "next/navigation"; 
 import { DeleteAlart } from "./DeleteAlart";
 import toast from "react-hot-toast";
+import { authClient } from "@/lib/auth-client";
 
 export function FacilitiesAction({ id }) {
   const router = useRouter();
@@ -23,11 +24,23 @@ export function FacilitiesAction({ id }) {
   };
 
  
-  const handleConfirmDelete = async () => {
+ const handleConfirmDelete = async () => {
     try {
-      await deleteFacilityById(id);
+      // টোকেন নিন
+      const { data: tokenData } = await authClient.token();
+      const token = tokenData?.token;
+
+      if (!token) {
+        toast.error("You are not logged in!");
+        return;
+      }
+
+      // টোকেনসহ ডিলিট ফাংশন কল করুন
+      await deleteFacilityById(id, token);
+      
       toast.success("Facility deleted successfully!");
-      router.refresh(); 
+      router.refresh();
+      setIsAlertOpen(false); // অ্যালার্ট বন্ধ করুন
     } catch (error) {
       console.error("Delete Error:", error);
       toast.error("Could not delete the facility.");

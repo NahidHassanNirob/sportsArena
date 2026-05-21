@@ -9,43 +9,47 @@ import {
   TextField,
   FieldError,
 } from "@heroui/react";
-import { authClient } from "@/lib/auth-client";
+// import { authClient } from "@/lib/auth-client";
 import { postFacilities } from "@/lib/data";
-
-
-const AddFacilitiesForm = () => {
+import toast from "react-hot-toast";
+import { authClient } from "@/lib/auth-client";
+const AddFacilitiesForm = ({ token }) => {
   const { data: session } = authClient.useSession();
   const user = session?.user;
+  
 
+  // e এর পাশাপাশি e.currentTarget এর বদলে সরাসরি e ব্যবহার করুন
   const handelSubmit = async (e) => {
     e.preventDefault();
-    const data = new FormData(e.currentTarget);
-    const fileInput = data.get('image');
-    
+
+    // HeroUI Form থেকে ডাটা পাওয়ার জন্য FormData এর বদলে সরাসরি e.target ব্যবহার করুন
+    const data = new FormData(e.target);
+    const fileInput = data.get("image");
+
     if (!fileInput || fileInput.size === 0) {
-      // toast.error("Please upload an image!");
       return;
     }
-
-    // const toastId = toast.loading("Uploading image and saving facility...");
 
     try {
       const imageFormData = new FormData();
       imageFormData.append("image", fileInput);
 
-      const imagebbKey = process.env.NEXT_PUBLIC_IMGBB_API_KEY; 
-      
-      const response = await fetch(`https://api.imgbb.com/1/upload?key=${imagebbKey}`, {
-        method: "POST",
-        body: imageFormData,
-      });
+      const imagebbKey = process.env.NEXT_PUBLIC_IMGBB_API_KEY;
+
+      const response = await fetch(
+        `https://api.imgbb.com/1/upload?key=${imagebbKey}`,
+        {
+          method: "POST",
+          body: imageFormData,
+        },
+      );
 
       const imgData = await response.json();
 
       if (imgData.success) {
         const imageUrl = imgData.data.url;
         const formDataObject = Object.fromEntries(data.entries());
-        
+
         formDataObject.image = imageUrl;
         formDataObject.ownerEmail = user?.email || "";
         formDataObject.pricePerHour = Number(formDataObject.pricePerHour);
@@ -53,19 +57,14 @@ const AddFacilitiesForm = () => {
         formDataObject.availableSlot = Number(formDataObject.availableSlot);
         formDataObject.booking_count = 0;
 
-        await postFacilities(formDataObject);
-
-        // toast.success("Facility successfully added!", { id: toastId });
+        await postFacilities(formDataObject, token);
+        toast.success("successfully add");
         e.target.reset();
-        
-      } else {
-        // toast.error("Image upload failed! Please try again.", { id: toastId });
       }
     } catch (error) {
       console.error(error);
-      // toast.error("Something went wrong while saving to database!", { id: toastId });
     }
-  }; 
+  };
 
   return (
     <div className="min-h-screen px-4">
@@ -81,7 +80,10 @@ const AddFacilitiesForm = () => {
           <Label className="text-white mb-1.5 block text-sm">
             Facility Name
           </Label>
-          <Input className="bg-[#0F171F] text-white" placeholder="Enter Facility Name" />
+          <Input
+            className="bg-[#0F171F] text-white"
+            placeholder="Enter Facility Name"
+          />
           <FieldError />
         </TextField>
 
@@ -95,14 +97,30 @@ const AddFacilitiesForm = () => {
               name="facilityType"
               className="w-full h-10 bg-[#0F171F] text-white rounded-xl px-3 border border-transparent focus:border-cyan-500 outline-none text-sm cursor-pointer"
             >
-              <option value="" className="bg-[#0D131F] text-gray-400">Select Game Type</option>
-              <option value="Football" className="bg-[#0D131F]">Football</option>
-              <option value="Basketball" className="bg-[#0D131F]">Basketball</option>
-              <option value="Tennis" className="bg-[#0D131F]">Tennis</option>
-              <option value="Cricket" className="bg-[#0D131F]">Cricket</option>
-              <option value="Badminton" className="bg-[#0D131F]">Badminton</option>
-              <option value="Gym" className="bg-[#0D131F]">Gym & Fitness</option>
-              <option value="Swimming" className="bg-[#0D131F]">Swimming</option>
+              <option value="" className="bg-[#0D131F] text-gray-400">
+                Select Game Type
+              </option>
+              <option value="Football" className="bg-[#0D131F]">
+                Football
+              </option>
+              <option value="Basketball" className="bg-[#0D131F]">
+                Basketball
+              </option>
+              <option value="Tennis" className="bg-[#0D131F]">
+                Tennis
+              </option>
+              <option value="Cricket" className="bg-[#0D131F]">
+                Cricket
+              </option>
+              <option value="Badminton" className="bg-[#0D131F]">
+                Badminton
+              </option>
+              <option value="Gym" className="bg-[#0D131F]">
+                Gym & Fitness
+              </option>
+              <option value="Swimming" className="bg-[#0D131F]">
+                Swimming
+              </option>
             </select>
             <FieldError />
           </TextField>
@@ -123,7 +141,10 @@ const AddFacilitiesForm = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <TextField isRequired name="location" type="text">
             <Label className="text-white mb-1.5 block text-sm">Location</Label>
-            <Input className="bg-[#0F171F] text-white" placeholder="Enter Location" />
+            <Input
+              className="bg-[#0F171F] text-white"
+              placeholder="Enter Location"
+            />
             <FieldError />
           </TextField>
 
@@ -146,11 +167,11 @@ const AddFacilitiesForm = () => {
             <Label className="text-white mb-1.5 block text-sm">
               Price Per Hour ($)
             </Label>
-            <Input 
-              type="number" 
-              className="bg-[#0F171F] text-white" 
-              placeholder="Enter Price" 
-              min={0} 
+            <Input
+              type="number"
+              className="bg-[#0F171F] text-white"
+              placeholder="Enter Price"
+              min={0}
             />
             <FieldError />
           </TextField>
@@ -158,11 +179,11 @@ const AddFacilitiesForm = () => {
             <Label className="text-white mb-1.5 block text-sm">
               Available Slot
             </Label>
-            <Input 
-              type="number" 
-              className="bg-[#0F171F] text-white" 
-              placeholder="Enter Available Slot" 
-              min={0} 
+            <Input
+              type="number"
+              className="bg-[#0F171F] text-white"
+              placeholder="Enter Available Slot"
+              min={0}
             />
             <FieldError />
           </TextField>
@@ -173,10 +194,7 @@ const AddFacilitiesForm = () => {
             <Label className="text-white mb-1.5 block text-sm">
               Opening Time
             </Label>
-            <Input 
-              type="time" 
-              className="bg-[#0F171F] text-white" 
-            />
+            <Input type="time" className="bg-[#0F171F] text-white" />
             <FieldError />
           </TextField>
 
@@ -184,10 +202,7 @@ const AddFacilitiesForm = () => {
             <Label className="text-white mb-1.5 block text-sm">
               Closing Time
             </Label>
-            <Input 
-              type="time" 
-              className="bg-[#0F171F] text-white" 
-            />
+            <Input type="time" className="bg-[#0F171F] text-white" />
             <FieldError />
           </TextField>
         </div>
@@ -206,9 +221,9 @@ const AddFacilitiesForm = () => {
 
         <div className="flex flex-col gap-1">
           <label className="text-gray-400 text-sm">Owner Email</label>
-          <input 
+          <input
             type="email"
-            value={user?.email || ""} 
+            value={user?.email || ""}
             readOnly
             className="w-full h-10 bg-[#172230] text-gray-400 opacity-70 rounded-xl px-3 border border-gray-800 outline-none text-sm cursor-not-allowed"
           />

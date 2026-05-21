@@ -4,11 +4,16 @@ import { MapPin, Users, Clock, Star } from "lucide-react";
 import Image from 'next/image';
 import { generateAvailableSlots } from '@/lib/availableTimeSlot';
 import BookingForm from '@/components/BookingForm';
+import { auth } from '@/lib/auth';
+import { headers } from 'next/headers';
 // import BookingForm from '@/components/BookingForm'; // 👈 নতুন ফর্মটি ইম্পোর্ট করুন
 
 const FacilitiesDetails = async ({ params }) => {
     const { id } = await params;
+    
+    
     const detailsData = await getDataById(id);
+   
     
     if (!detailsData) {
         return <div className="text-white text-center py-20">Facility not found!</div>;
@@ -33,7 +38,7 @@ const FacilitiesDetails = async ({ params }) => {
     const computedTimeSlots = generateAvailableSlots(openingTime, closingTime);
 
     return (
-        <main className="min-h-screen bg-[#0D131F] text-white py-12">
+        <main className="min-h-screen bg-[#0D131F] text-white pt-30 pb-10">
             <div className="max-w-6xl mx-auto px-4">
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                     

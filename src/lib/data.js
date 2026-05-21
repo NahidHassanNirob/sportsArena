@@ -1,89 +1,99 @@
-// get featuredfacilities data
-export const getfeaturedfacilities=async()=>{
-    const res=await fetch('http://localhost:8000/featuredfacilities');
-    const data=await res.json();
-    return data
-}
+// lib/data.js
+const BASE_URL = "http://localhost:8000";
+
+const getHeaders = (token) => ({
+  "Content-Type": "application/json",
+  ...(token && { "Authorization": `Bearer ${token}` })
+});
+
+export const getfeaturedfacilities = async (jwtToken = "") => {
+  const res = await fetch(`${BASE_URL}/featuredfacilities`, { headers: getHeaders(jwtToken) });
+  return res.json();
+};
 
 export const getAllfacilities = async (search = "", filter = "") => {
-    
-    const res = await fetch(`http://localhost:8000/facilities?search=${search}&filter=${filter}`, {
-        cache: 'no-store'
-    });
-    const data = await res.json();
-    return data;
+  const res = await fetch(`${BASE_URL}/facilities?search=${search}&filter=${filter}`, { cache: "no-store" });
+  return res.json();
 };
 
-
-// post database Facilities
-export const postFacilities=async(facilitiesData)=>{
-    const res = await fetch(`http://localhost:8000/facilities`,{
-        method:'POST',
-        headers:{
-            "Content-Type": "application/json"
-        },
-        body:JSON.stringify(facilitiesData)
-
-    })
-    const data=await res.json();
-    return data;
-
-}
-// get data by id
-export const getDataById=async(id)=>{
-    const res=await fetch(`http://localhost:8000/facilities/${id}`)
-    const data = await res.json()
-    return data|| []
-}
-
-// post data to booking
-export const setBooking=async(bookingdata)=>{
-    const res=await fetch('http://localhost:8000/bookings',{
-        method:'POST',
-         headers:{
-            'content-type':'application/json'
-         }
-         ,
-         body:JSON.stringify(bookingdata)
-    })
-
-    const data= await res.json()
-    return data;
-}
-
-// get my booking data
-export const getMyBookings=async(myEmail)=>{
-    const res= await fetch(`http://localhost:8000/bookings?email=${myEmail}`,{cache:'no-store'})
-    const data=await res.json();
-    return data || []
-}
-
-// get owner facilities
-export const getOwnerFcilities=async(owenerEmail)=>{
-    const res= await fetch(`http://localhost:8000/ownerfacilities?email=${owenerEmail}`,{cache:'no-store'})
-    const data=await res.json(owenerEmail);
-    return data || [];
-}
-
-// update facility data by id
-export const updateFacilityById = async (id, updatedData) => {
-  const res = await fetch(`http://localhost:8000/facilities/${id}`, {
-    method: 'PATCH',
+export const postFacilities = async (facilitiesData, jwtToken) => {
+  const res = await fetch(`${BASE_URL}/facilities`, {
+    method: "POST",
     headers: {
-      "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${jwtToken}` // এভাবে হেডার নিশ্চিত করুন
     },
-    body: JSON.stringify(updatedData)
+    body: JSON.stringify(facilitiesData),
   });
-  const data = await res.json();
-  return data;
+  return res.json();
 };
 
-// delete facility by id
-export const deleteFacilityById = async (id) => {
-  const res = await fetch(`http://localhost:8000/facilities/${id}`, {
-    method: 'DELETE',
-  });
-  const data = await res.json();
-  return data;
+export const getDataById = async (id) => {
+  const res = await fetch(`${BASE_URL}/facilities/${id}`);
+  return res.json();
 };
 
+export const setBooking = async (data, token) => {
+  const res = await fetch(`${BASE_URL}/bookings`, {
+    method: "POST",
+    headers: getHeaders(token),
+    body: JSON.stringify(data),
+  });
+
+  // যদি সার্ভার থেকে স্ট্যাটাস কোড ২০০ এর বাইরে আসে (যেমন ৪০০ বা ৫০০)
+  if (!res.ok) {
+    const errorData = await res.json();
+    throw new Error(errorData.message || "Failed to book");
+  }
+
+  return res.json();
+};
+
+export const getMyBookings = async (token) => {
+  const res = await fetch(`${BASE_URL}/bookings`, { 
+    headers: getHeaders(token), 
+    cache: "no-store" 
+  });
+  return res.json();
+};
+
+
+
+export const getOwnerFcilities = async (jwtToken) => {
+  const res = await fetch(`${BASE_URL}/ownerfacilities`, {
+    headers: getHeaders(jwtToken),
+    cache: "no-store",
+  });
+  return res.json();
+};
+
+export const updateFacilityById = async (id, updatedData, jwtToken) => {
+  const res = await fetch(`${BASE_URL}/facilities/${id}`, {
+    method: "PATCH",
+    headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${jwtToken}` // টোকেন পাঠানো জরুরি
+    },
+    body: JSON.stringify(updatedData),
+  });
+  return res.json();
+};
+
+// lib/data.js
+export const deleteFacilityById = async (id, jwtToken) => {
+  const res = await fetch(`${BASE_URL}/facilities/${id}`, {
+    method: "DELETE",
+    headers: {
+        "Authorization": `Bearer ${jwtToken}` // হেডারটি এভাবে নিশ্চিত করুন
+    },
+  });
+  return res.json();
+};
+
+export const deleteBooking = async (id, jwtToken) => {
+  const res = await fetch(`${BASE_URL}/bookings/${id}`, {
+    method: "DELETE",
+    headers: getHeaders(jwtToken),
+  });
+  return res.json();
+};

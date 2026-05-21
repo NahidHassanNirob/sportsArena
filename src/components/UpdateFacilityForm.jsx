@@ -5,23 +5,39 @@ import { Check } from "@gravity-ui/icons";
 import { Button, Form, Input, Label, TextField, FieldError } from "@heroui/react";
 import { updateFacilityById } from "@/lib/data";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
+import { authClient } from "@/lib/auth-client";
 
 const UpdateFacilityForm = ({ id, currentData }) => {
   const router = useRouter();
 
-  const handleUpdate = async (e) => {
+ const handleUpdate = async (e) => {
     e.preventDefault();
-    const formData = new FormData(e.currentTarget);
+    
+    // টোকেন নিন
+    const { data: tokenData } = await authClient.token();
+    const token = tokenData?.token;
+
+    const formData = new FormData(e.target);
     const updatedObject = Object.fromEntries(formData.entries());
 
-    const result = await updateFacilityById(id, updatedObject);
+    // টাইপ কনভার্সন করুন
+    const finalData = {
+        ...updatedObject,
+        pricePerHour: Number(updatedObject.pricePerHour),
+        capacity: Number(updatedObject.capacity),
+        availableSlot: Number(updatedObject.availableSlot),
+    };
+
+    // টোকেনসহ আপডেট ফাংশন কল করুন
+    const result = await updateFacilityById(id, finalData, token);
 
     if (result.modifiedCount > 0 || result.matchedCount > 0) {
-      alert("Facility updated successfully!");
+      toast.success("Facility updated successfully!");
       router.push("/manage-facilities"); 
       router.refresh();
     } else {
-      alert("No changes made or update failed.");
+      toast.error("No changes made or update failed.");
     }
   };
 

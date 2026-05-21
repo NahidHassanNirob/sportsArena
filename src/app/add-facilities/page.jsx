@@ -1,7 +1,15 @@
 import AddFacilitiesForm from "@/components/AddFacilitiesForm";
+import { auth } from "@/lib/auth";
+// import { authClient } from "@/lib/auth-client";
+import { headers } from "next/headers";
 import React from "react";
 
-const AddFacilities = () => {
+const AddFacilities =  async() => {
+  const session=await auth.api.getToken({
+          headers: await headers()
+  })
+  const token=session?.token
+  
   return (
     <div className=" bg-[#03080F] mx-auto px-4 min-h-screen text-white">
       <section className="pt-32 pb-12 max-w-6xl mx-auto">
@@ -23,7 +31,7 @@ const AddFacilities = () => {
             </p>
           </div>
         </div>
-        <AddFacilitiesForm></AddFacilitiesForm>
+        <AddFacilitiesForm token={token}></AddFacilitiesForm>
       </section>
     </div>
   );

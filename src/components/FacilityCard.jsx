@@ -3,6 +3,7 @@ import React from 'react';
 import { motion } from "framer-motion";
 import { MapPin, Users, Clock, Star } from "lucide-react";
 import { Button } from '@heroui/react'; 
+import Link from 'next/link';
 
 const FacilityCard = ({ facilitie, index = 0 }) => {
   if (!facilitie) return null;
@@ -30,7 +31,7 @@ const FacilityCard = ({ facilitie, index = 0 }) => {
       transition={{ duration: 0.2, delay: 0.2 }}
       className="group"
     >
-      <a href={`/facilities/${facilityId}`} className="block h-full">
+      <Link href={`/facilities/${facilityId}`} className="block h-full">
         <div className="h-full bg-card rounded-2xl overflow-hidden border border-border transition-all duration-300 hover:border-cyan/30 hover:shadow-[0_0_30px_rgba(6,182,212,0.15)] card-glow">
           
           <div className="relative h-48 overflow-hidden">
@@ -93,7 +94,7 @@ const FacilityCard = ({ facilitie, index = 0 }) => {
           </div>
 
         </div>
-      </a>
+      </Link>
     </motion.div>
   );
 };

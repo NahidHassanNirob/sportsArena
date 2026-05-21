@@ -1,14 +1,28 @@
 // import { Button } from "@heroui/react";
+'use client'
 import { X } from "lucide-react";
 import {AlertDialog, Button} from "@heroui/react";
+import { deleteBooking } from "@/lib/data";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
+import { authClient } from "@/lib/auth-client";
 
-const CancelBookingBtn = () => {
+const CancelBookingBtn = ({id}) => {
+  const router=useRouter()
+ const handelCancle = async () => {
+  const { data } = await authClient.token();
+  if (!data?.token) return toast.error("Unauthorized");
+  
+  await deleteBooking(id, data.token);
+  toast.success('Successfully cancelled');
+  router.refresh();
+};
   return (
      <AlertDialog>
       <Button variant="danger">Cancle Booking</Button>
       <AlertDialog.Backdrop>
-        <AlertDialog.Container>
-          <AlertDialog.Dialog className="sm:max-w-[400px]">
+        <AlertDialog.Container >
+          <AlertDialog.Dialog className="sm:max-w-[400px] ">
             <AlertDialog.CloseTrigger />
             <AlertDialog.Header>
               <AlertDialog.Icon status="danger" />
@@ -21,11 +35,9 @@ const CancelBookingBtn = () => {
               </p>
             </AlertDialog.Body>
             <AlertDialog.Footer>
-              <Button slot="close" variant="tertiary">
-                Cancel
-              </Button>
-              <Button slot="close" variant="danger">
-                Delete Project
+              
+              <Button onClick={()=>handelCancle(id)} slot="close" variant="danger">
+                Cancel Booking
               </Button>
             </AlertDialog.Footer>
           </AlertDialog.Dialog>
