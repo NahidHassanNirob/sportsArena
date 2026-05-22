@@ -6,7 +6,8 @@ const MyBookingCard = ({ book }) => {
   const {
     _id,
     facilityId,
-    location,
+    
+location,
     image,
     facilityName,
     userEmail,
@@ -16,7 +17,7 @@ const MyBookingCard = ({ book }) => {
     totalPrice,
     status,
   } = book;
-
+// console.log(location,status,"location and status");
   return (
     <div className="w-full border bg-[#041527] border-white/5 rounded-2xl p-5 flex flex-col md:flex-row gap-5 items-start md:items-center justify-between">
       <div className="flex items-start gap-4 flex-1">
