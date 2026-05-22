@@ -17,11 +17,12 @@ export const getAllfacilities = async (search = "", filter = "") => {
 };
 
 export const postFacilities = async (facilitiesData, jwtToken) => {
+  console.log(jwtToken);
   const res = await fetch(`${BASE_URL}/facilities`, {
     method: "POST",
     headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${jwtToken}` // এভাবে হেডার নিশ্চিত করুন
+        "Authorization": `Bearer ${jwtToken}` 
     },
     body: JSON.stringify(facilitiesData),
   });
@@ -40,7 +41,7 @@ export const setBooking = async (data, token) => {
     body: JSON.stringify(data),
   });
 
-  // যদি সার্ভার থেকে স্ট্যাটাস কোড ২০০ এর বাইরে আসে (যেমন ৪০০ বা ৫০০)
+  
   if (!res.ok) {
     const errorData = await res.json();
     throw new Error(errorData.message || "Failed to book");
@@ -50,11 +51,25 @@ export const setBooking = async (data, token) => {
 };
 
 export const getMyBookings = async (token) => {
-  const res = await fetch(`${BASE_URL}/bookings`, { 
-    headers: getHeaders(token), 
-    cache: "no-store" 
-  });
-  return res.json();
+  console.log(token,"token");
+  try {
+    const res = await fetch(`${BASE_URL}/bookings`, {
+      headers: getHeaders(token),
+      cache: "no-store",
+    });
+   console.log(res,"res");
+    if (!res.ok) {
+      console.log("Booking fetch failed:", res.status);
+      return [];
+    }
+
+    const data = await res.json();
+
+    return Array.isArray(data) ? data : [];
+  } catch (error) {
+    console.log("getMyBookings error:", error);
+    return [];
+  }
 };
 
 
