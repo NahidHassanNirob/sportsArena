@@ -110,5 +110,13 @@ export const deleteBooking = async (id, jwtToken) => {
     method: "DELETE",
     headers: getHeaders(jwtToken),
   });
+
+  // ✅ 500 হলে JSON parse না করে error throw করুন
+  if (!res.ok) {
+    const text = await res.text();
+    console.error("Server error:", text);
+    throw new Error("Failed to cancel booking");
+  }
+
   return res.json();
 };

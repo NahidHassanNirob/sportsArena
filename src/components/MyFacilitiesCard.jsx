@@ -26,10 +26,12 @@ const MyFacilitiesCard = ({ facilities }) => {
             {/* বাম পাশের ইমেজ সেকশন */}
             <div className='relative w-full md:w-[150px] h-[110px] rounded-xl overflow-hidden shrink-0'>
                 <Image 
+                    
                     src={image} 
                     alt={facilityName || 'Facility Image'} 
                     fill 
                     className='object-cover'
+
                 />
             </div>
             

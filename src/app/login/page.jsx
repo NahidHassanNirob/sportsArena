@@ -82,6 +82,7 @@ export default function LoginPage() {
                 <input
                   type="email"
                   value={email}
+                  placeholder="Enter your email"
                   onChange={(e) => setEmail(e.target.value)}
                   className={inputClasses}
                   required
@@ -97,8 +98,9 @@ export default function LoginPage() {
                   type={showPassword ? "text" : "password"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className={`${inputClasses} pr-12`}
+                  className={`${inputClasses} pr-12 `}
                   required
+                  placeholder="Enter your password"
                 />
                 <button
                   type="button"

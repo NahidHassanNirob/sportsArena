@@ -13,9 +13,14 @@ const CancelBookingBtn = ({id}) => {
   const { data } = await authClient.token();
   if (!data?.token) return toast.error("Unauthorized");
   
-  await deleteBooking(id, data.token);
-  toast.success('Successfully cancelled');
-  router.refresh();
+  try {
+    await deleteBooking(id, data.token);
+    toast.success('Successfully cancelled');
+    router.refresh();
+  } catch (err) {
+    console.error(err);
+    toast.error("Failed to cancel booking");
+  }
 };
   return (
      <AlertDialog>

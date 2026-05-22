@@ -58,7 +58,9 @@ const BookingForm = ({ facilityId, image, facilityName, location, pricePerHour, 
 // BookingForm.jsx এর ভেতরে handleSubmit
 const handleSubmit = async (e) => {
   e.preventDefault();
+//   const { data } = await authClient.token();
   const { data } = await authClient.token();
+  console.log(data?.token,"token is here");
   if (!data?.token) return toast.error("Please login!");
 
   const bookingData = { facilityId, facilityName, date: selectedDate, slots: selectedSlots, totalHours, totalPrice };
